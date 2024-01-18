@@ -6,10 +6,7 @@ import service.CatetoryService;
 import service.ProductService;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class CategoryServiceImpl implements CatetoryService {
@@ -42,9 +39,9 @@ public class CategoryServiceImpl implements CatetoryService {
         if (categoryUpdate != null) {
             categoryUpdate.inputData(sc);
             dataCategory.set(dataCategory.indexOf(findId(id)), categoryUpdate);
-            System.out.println("-> Cập nhật Id: "+id+" thành công");
+            System.out.println("-> Cập nhật Id: " + id + " thành công");
         } else {
-            System.out.println("Không tìm thấy id: "+id);
+            System.out.println("Không tìm thấy id: " + id);
         }
     }
 
@@ -77,8 +74,19 @@ public class CategoryServiceImpl implements CatetoryService {
     }
 
     @Override
-    public List<Category> statisticsByQuantity() {
-        return null;
+    public void statisticsByQuantity(ProductService products) {
+        Map<String, Integer> mapPro = new HashMap<>();
+        for (Product p : products.findAll()) {
+            if (mapPro.containsKey(p.getCategoryName())) {
+                mapPro.replace(p.getCategoryName(), mapPro.get(p.getCategoryName()) + 1);
+            } else {
+                mapPro.put(p.getCategoryName(), 1);
+            }
+        }
+        for (String key : mapPro.keySet()) {
+            int value = mapPro.get(key);
+            System.out.printf("Danh mục <%s> có %d sản phẩm \n", key, value);
+        }
     }
 
     @Override

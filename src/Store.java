@@ -15,7 +15,7 @@ public class Store {
         ProductService productService = new ProductServiceImpl();
         boolean isExist = true;
         do {
-            System.out.println("QUẢN LÝ KHO");
+            System.out.println("---------QUẢN LÝ KHO---------");
             System.out.println("1- Quản lý danh mục");
             System.out.println("2- Quản lý sản phẩm");
             System.out.println("3- Thoát");
@@ -32,7 +32,7 @@ public class Store {
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("Bạn đã chọn sai chức năng");
+                    System.out.println("Hãy nhập từ 1-3");
                     break;
             }
         } while (isExist);
@@ -42,7 +42,7 @@ public class Store {
     public static void showBoardCategory(Scanner sc, CatetoryService catetoryService, ProductService productService) {
         boolean isExist = true;
         do {
-            System.out.println("QUẢN LÝ DANH MỤC");
+            System.out.println("---------QUẢN LÝ DANH MỤC---------");
             System.out.println("1- Thêm mới danh mục");
             System.out.println("2- Cập nhật danh mục");
             System.out.println("3- Xóa danh mục");
@@ -69,6 +69,7 @@ public class Store {
                     int idUpdate = Integer.parseInt(sc.nextLine());
                     catetoryService.update(idUpdate, sc);
                     catetoryService.save();
+                    productService.updateCategoryName(idUpdate, catetoryService);
                     break;
                 case 3:
                     try {                           // dễ nhập nhầm chữ và số nên bỏ try vào
@@ -87,6 +88,7 @@ public class Store {
                     }
                     break;
                 case 5:
+                    catetoryService.statisticsByQuantity(productService);
                     break;
                 case 6:
                     for (Category x : catetoryService.showCategory()) {
@@ -96,15 +98,16 @@ public class Store {
                 case 7:
                     isExist = false;
                     break;
+                default:
+                    System.out.println("Hãy nhập từ 1-7");
             }
         } while (isExist);
     }
 
     public static void showBoardProduct(Scanner sc, ProductService productService, CatetoryService catetoryService) {
-
         boolean isExist = true;
         do {
-            System.out.println("QUẢN LÝ SẢN PHẨM");
+            System.out.println("---------QUẢN LÝ SẢN PHẨM---------");
             System.out.println("1- Thêm sản phẩm");
             System.out.println("2- Cập nhật sản phẩm");
             System.out.println("3- Xóa sản phẩm");
@@ -129,7 +132,7 @@ public class Store {
                 case 2:
                     System.out.print("Nhập Id SP muốn cập nhật: ");
                     String idUpdate = sc.nextLine();
-                    productService.update(idUpdate,sc,catetoryService);
+                    productService.update(idUpdate, sc, catetoryService);
                     productService.save();
                     break;
                 case 3:
@@ -149,10 +152,20 @@ public class Store {
                     }
                     break;
                 case 6:
+                    System.out.print("Nhập từ khóa tìm kiếm: ");
+                    String inputFind = sc.nextLine();
+                    for (Product p : productService.findProductByNameOrPrice(inputFind)) {
+                        p.displayData();
+                    }
+                    if (productService.findProductByNameOrPrice(inputFind).size() == 0) {
+                        System.out.println("Không tìm thấy sản phẩm với từ khóa: " + inputFind);
+                    }
                     break;
                 case 7:
                     isExist = false;
                     break;
+                default:
+                    System.out.println("Hãy nhập từ 1-7");
             }
         } while (isExist);
     }

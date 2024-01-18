@@ -1,18 +1,17 @@
 package service.impl;
 
+import entity.impl.Category;
 import entity.impl.Product;
 import service.CatetoryService;
 import service.ProductService;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl implements ProductService  {
     private static List<Product> dataProduct = new ArrayList<>();
     public ProductServiceImpl(){
         load();
@@ -47,6 +46,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void updateCategoryName(int id, CatetoryService catetoryService) {
+        String name = "";
+        for (Category c : catetoryService.showCategory()){
+            if ( c.getId() == id){
+                name = c.getName();
+            }
+        }
+        for (Product p : dataProduct){
+            if (p.getCategoryId()==id)
+                p.setCategoryName(name);
+                save();
+        }
+
+    }
+
+    @Override
     public void remove(String id) {
         Product product = findId(id);
         if (product != null) {
@@ -71,10 +86,24 @@ public class ProductServiceImpl implements ProductService {
         return sortByProfit;
     }
 
+
+
+
+
     @Override
-    public List<Product> findProductByAny() {
-        return null;
+    public List<Product> findProductByNameOrPrice(String obj) {
+        List<Product> result1 = new ArrayList<>();
+        for (Product p : dataProduct){
+            if (p.getName().toLowerCase().contains(obj.toLowerCase())||String.valueOf(p.getImportPrice()).contains(obj)||String.valueOf(p.getExportPrice()).contains(obj)){
+                result1.add(p);
+
+            }
+        }
+
+        return result1;
     }
+
+
 
     @Override
     public boolean findAny(Predicate<Product> predicate) {

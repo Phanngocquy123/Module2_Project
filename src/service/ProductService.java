@@ -10,11 +10,12 @@ public interface ProductService {
     void add(Product product);
     Product findId(String id);
     void update(String id, Scanner sc, CatetoryService catetoryService);
+    void updateCategoryName(int id, CatetoryService catetoryService);
     void remove(String id);
     List<Product> findAll();
     List<Product> showProductAtoZ();
     List<Product> showProductByProfit();
-    List<Product>  findProductByAny();
+    List<Product> findProductByNameOrPrice(String obj);
     boolean findAny(Predicate<Product> predicate);
 
     void load();

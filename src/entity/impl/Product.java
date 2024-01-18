@@ -257,10 +257,10 @@ public class Product implements IProduct, Serializable {
 
     @Override
     public void displayData() {
-        System.out.printf("- Mã SP: %s || Tên SP: %s || Giá nhập: %f || Giá bán: %s || Lợi nhuận: %f \n",
+        System.out.printf("- Mã SP: %s || Tên SP: %s || Giá nhập: %-6s || Giá bán: %-6s || Lợi nhuận: %s \n",
                 this.id, this.name, this.importPrice, this.exportPrice, this.profit);
-        System.out.printf("Mô tả SP: %s || Trạng thái: %-16s || Tên danh mục: %s\n",
-                this.description, this.status ? "Còn hàng" : "Ngừng kinh doanh", this.categoryName);
+        System.out.printf("  Mô tả SP: %-15s || Trạng thái: %-22s || <Id-%d> Tên danh mục: %s\n",
+                this.description, this.status ? "Còn hàng" : "Ngừng kinh doanh",this.categoryId, this.categoryName);
     }
 
     @Override

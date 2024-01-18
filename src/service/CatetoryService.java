@@ -13,7 +13,7 @@ public interface CatetoryService {
     void update(int id, Scanner sc);
     void remove(int id, ProductService products);
     List<Category> findByName(String name);
-    List<Category>  statisticsByQuantity();
+    void  statisticsByQuantity(ProductService products);
     List<Category> showCategory();
     boolean findAny(Predicate<Category> predicate);
     void load();
